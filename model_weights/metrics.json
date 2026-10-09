@@ -1,0 +1,516 @@
+{
+  "generated": "2026-10-09T11:52:38",
+  "tensorflow": "2.21.0",
+  "seed": 42,
+  "quick_test": true,
+  "pretrained": true,
+  "selected_model": "efficientnetb0",
+  "fine_tuned": true,
+  "dataset": {
+    "images_before_cleaning": 20638,
+    "unreadable_images": 0,
+    "images_after_cleaning": 900,
+    "n_classes": 15,
+    "crops": [
+      "Pepper",
+      "Potato",
+      "Tomato"
+    ],
+    "class_counts": {
+      "Pepper__bell___Bacterial_spot": 60,
+      "Pepper__bell___healthy": 60,
+      "Potato___Early_blight": 60,
+      "Potato___Late_blight": 60,
+      "Potato___healthy": 60,
+      "Tomato_Bacterial_spot": 60,
+      "Tomato_Early_blight": 60,
+      "Tomato_Late_blight": 60,
+      "Tomato_Leaf_Mold": 60,
+      "Tomato_Septoria_leaf_spot": 60,
+      "Tomato_Spider_mites_Two_spotted_spider_mite": 60,
+      "Tomato__Target_Spot": 60,
+      "Tomato__Tomato_YellowLeaf__Curl_Virus": 60,
+      "Tomato__Tomato_mosaic_virus": 60,
+      "Tomato_healthy": 60
+    },
+    "imbalance_ratio_max_over_min": 1.0,
+    "image_sizes_in_300_sample": {
+      "(256, 256)": 300
+    },
+    "near_duplicate_threshold": 0.97,
+    "split_counts": {
+      "train": 630,
+      "val": 135,
+      "test": 135
+    },
+    "grouped_split": true
+  },
+  "comparison_validation": [
+    {
+      "model": "cnn_baseline",
+      "val_accuracy": 0.0741,
+      "val_macro_f1": 0.0176,
+      "parameters": 95183,
+      "latency_ms_per_image": 24.8
+    },
+    {
+      "model": "mobilenetv2",
+      "val_accuracy": 0.3259,
+      "val_macro_f1": 0.2891,
+      "parameters": 2277199,
+      "latency_ms_per_image": 33.8
+    },
+    {
+      "model": "efficientnetb0",
+      "val_accuracy": 0.3926,
+      "val_macro_f1": 0.3748,
+      "parameters": 4068786,
+      "latency_ms_per_image": 93.9
+    }
+  ],
+  "test": {
+    "n": 135,
+    "accuracy": 0.4222,
+    "macro_precision": 0.4391,
+    "macro_recall": 0.4222,
+    "macro_f1": 0.3852
+  },
+  "per_class": [
+    {
+      "class": "Pepper__bell___Bacterial_spot",
+      "precision": 0.5,
+      "recall": 0.5556,
+      "f1": 0.5263,
+      "support": 9
+    },
+    {
+      "class": "Pepper__bell___healthy",
+      "precision": 0.7143,
+      "recall": 0.5556,
+      "f1": 0.625,
+      "support": 9
+    },
+    {
+      "class": "Potato___Early_blight",
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571,
+      "support": 9
+    },
+    {
+      "class": "Potato___Late_blight",
+      "precision": 0.5,
+      "recall": 0.7778,
+      "f1": 0.6087,
+      "support": 9
+    },
+    {
+      "class": "Potato___healthy",
+      "precision": 0.7778,
+      "recall": 0.7778,
+      "f1": 0.7778,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Bacterial_spot",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Early_blight",
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Late_blight",
+      "precision": 1.0,
+      "recall": 0.1111,
+      "f1": 0.2,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Leaf_Mold",
+      "precision": 0.125,
+      "recall": 0.1111,
+      "f1": 0.1176,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Septoria_leaf_spot",
+      "precision": 0.1875,
+      "recall": 0.3333,
+      "f1": 0.24,
+      "support": 9
+    },
+    {
+      "class": "Tomato_Spider_mites_Two_spotted_spider_mite",
+      "precision": 0.24,
+      "recall": 0.6667,
+      "f1": 0.3529,
+      "support": 9
+    },
+    {
+      "class": "Tomato__Target_Spot",
+      "precision": 0.6667,
+      "recall": 0.2222,
+      "f1": 0.3333,
+      "support": 9
+    },
+    {
+      "class": "Tomato__Tomato_YellowLeaf__Curl_Virus",
+      "precision": 0.5714,
+      "recall": 0.4444,
+      "f1": 0.5,
+      "support": 9
+    },
+    {
+      "class": "Tomato__Tomato_mosaic_virus",
+      "precision": 0.125,
+      "recall": 0.1111,
+      "f1": 0.1176,
+      "support": 9
+    },
+    {
+      "class": "Tomato_healthy",
+      "precision": 0.4286,
+      "recall": 0.6667,
+      "f1": 0.5217,
+      "support": 9
+    }
+  ],
+  "confusion_matrix": {
+    "labels": [
+      "Pepper__bell___Bacterial_spot",
+      "Pepper__bell___healthy",
+      "Potato___Early_blight",
+      "Potato___Late_blight",
+      "Potato___healthy",
+      "Tomato_Bacterial_spot",
+      "Tomato_Early_blight",
+      "Tomato_Late_blight",
+      "Tomato_Leaf_Mold",
+      "Tomato_Septoria_leaf_spot",
+      "Tomato_Spider_mites_Two_spotted_spider_mite",
+      "Tomato__Target_Spot",
+      "Tomato__Tomato_YellowLeaf__Curl_Virus",
+      "Tomato__Tomato_mosaic_virus",
+      "Tomato_healthy"
+    ],
+    "matrix": [
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        5,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        2,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        3,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        1,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        2,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        6,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        1,
+        0,
+        4,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        4,
+        3,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        6
+      ]
+    ]
+  },
+  "overfitting": {
+    "final_train_accuracy": 0.3794,
+    "final_val_accuracy": 0.437,
+    "gap": -0.0577
+  },
+  "calibration": {
+    "temperature": 0.3066,
+    "test_ece_before": 0.2662,
+    "test_ece_after": 0.1156,
+    "coverage_table": [
+      {
+        "threshold": 0.5,
+        "val_coverage": 0.3704,
+        "val_accuracy_on_kept": 0.7,
+        "test_coverage": 0.3259,
+        "test_accuracy_on_kept": 0.7045
+      },
+      {
+        "threshold": 0.6,
+        "val_coverage": 0.2148,
+        "val_accuracy_on_kept": 0.7931,
+        "test_coverage": 0.2,
+        "test_accuracy_on_kept": 0.8519
+      },
+      {
+        "threshold": 0.7,
+        "val_coverage": 0.1259,
+        "val_accuracy_on_kept": 0.8235,
+        "test_coverage": 0.1111,
+        "test_accuracy_on_kept": 0.8
+      },
+      {
+        "threshold": 0.8,
+        "val_coverage": 0.0667,
+        "val_accuracy_on_kept": 0.8889,
+        "test_coverage": 0.0667,
+        "test_accuracy_on_kept": 0.7778
+      },
+      {
+        "threshold": 0.9,
+        "val_coverage": 0.0296,
+        "val_accuracy_on_kept": 1.0,
+        "test_coverage": 0.0074,
+        "test_accuracy_on_kept": 1.0
+      }
+    ]
+  },
+  "figures": [
+    "confusion_matrix.png",
+    "training_curves.png"
+  ],
+  "notes": [
+    "Test set used once, after model selection on validation data.",
+    "PlantVillage images are lab-style; field/phone-photo accuracy is expected to be lower and must be measured separately."
+  ]
+}

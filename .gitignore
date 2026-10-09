@@ -1,0 +1,28 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+data/*
+!data/.gitkeep
+datasets/
+model_weights/checkpoints/
+model_weights/*.csv
+
+# Python environment and cache
+venv/
+env/
+__pycache__/
+*.pyo
+
+# Secrets
+.env.*
+!.env.example
+
+# Datasets and notebook cache
+datasets/
+.ipynb_checkpoints/
+
+# Local development
+.pytest_cache/
+.idea/
+.vscode/

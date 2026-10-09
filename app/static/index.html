@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlantGuard AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+<style>
+:root{--bg:#f4f7f4;--card:#fff;--ink:#14261b;--mut:#5f7367;--line:#dfe8e1;--g:#1f8a4c;--g2:#0e5b32;--red:#d64545;--amb:#e0a21a;--blue:#2f6fd6}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1712;--card:#17231b;--ink:#e6f0e9;--mut:#93a89a;--line:#27382d}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;align-items:center;gap:18px;padding:12px 24px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header b{font-size:18px}header nav{margin-left:auto;display:flex;gap:6px}header a{color:var(--mut);text-decoration:none;padding:6px 12px;border-radius:8px}header a:hover{background:var(--line);color:var(--ink)}
+main{max-width:1150px;margin:0 auto;padding:20px}
+.hero{background:linear-gradient(135deg,#0e5b32,#1f8a4c 60%,#58b36f);color:#fff;border-radius:18px;padding:28px}
+.hero h1{margin:0 0 4px;font-size:28px}.hero p{margin:0 0 18px;opacity:.9}
+.btn{border:0;border-radius:10px;padding:11px 18px;font:600 15px inherit;cursor:pointer;background:#fff;color:var(--g2)}
+.btn.pri{background:var(--g);color:#fff}.btn.ghost{background:rgba(255,255,255,.18);color:#fff}.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.env{margin-top:18px;background:rgba(255,255,255,.12);border-radius:12px;padding:14px}
+.env label{display:flex;flex-direction:column;font-size:12px;gap:3px;min-width:110px}
+input,select{padding:8px 10px;border-radius:8px;border:1px solid var(--line);font:inherit;background:#fff;color:#14261b}
+#prev{max-height:120px;border-radius:10px;display:none;border:2px solid #fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:18px}
+.card h2{margin:0 0 4px;font-size:18px}.sub{color:var(--mut);font-size:13px;margin:0 0 12px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}.kpi small{color:var(--mut);display:block}.kpi b{font-size:24px}.kpi i{display:block;font-style:normal;color:var(--mut);font-size:12px;margin-top:4px}
+.fig img{width:100%;border-radius:10px;border:1px solid var(--line)}.fig figcaption{font-size:12px;color:var(--mut);text-align:center;margin-top:4px}.fig{margin:0}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700;color:#fff}
+.Low,.LOW,.None{background:var(--g)}.Moderate,.MEDIUM{background:var(--amb)}.High,.HIGH{background:var(--red)}.Critical{background:#8b1d1d}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mut);font-weight:600}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}.bar>div{height:100%;background:var(--g)}
+.warn{background:#fff4e0;color:#6a4a00;border:1px solid #f0cf8a;border-radius:12px;padding:12px 14px;margin-top:16px}
+.fail{background:#fde8e8;color:#7a1b1b;border-color:#f0b4b4}
+.note{font-size:12px;color:var(--mut)}ul.t{margin:6px 0;padding-left:20px}
+canvas{max-width:100%}.cc{position:relative;height:260px}
+#cam{position:fixed;inset:0;background:#000d;display:none;z-index:20;align-items:center;justify-content:center;flex-direction:column;gap:10px}
+#cam .box{position:relative;width:min(92vw,560px)}#cam video{width:100%;border-radius:14px;background:#000}
+#cam .guide{position:absolute;inset:14% 18%;border:3px dashed #7dffa5;border-radius:16px;pointer-events:none}
+#hint{color:#fff;font-weight:600;min-height:24px}
+#chatb{position:fixed;right:18px;bottom:18px;z-index:10}#chatp{position:fixed;right:18px;bottom:76px;width:min(380px,92vw);height:460px;display:none;flex-direction:column;z-index:10;padding:0;overflow:hidden}
+#msgs{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}.m{padding:8px 12px;border-radius:12px;max-width:88%;white-space:pre-wrap}.m.u{background:var(--g);color:#fff;align-self:flex-end}.m.a{background:var(--line);align-self:flex-start}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 8px}.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:4px 10px;font-size:12px;cursor:pointer}
+</style></head><body>
+<header><b>🌱 PlantGuard AI</b><nav><a href="#top">Analyze</a><a href="#monitor">Monitoring</a><a href="#evalsec">Model evaluation</a></nav></header>
+<main id="top">
+<section class="hero"><h1>Plant Health Intelligence</h1><p>Disease, severity, environmental risk and progression - with visual evidence for every result.</p>
+<div class="row"><button class="btn" id="upBtn">📁 Upload Leaf Image</button><button class="btn ghost" id="camBtn">📷 Scan Leaf</button>
+<img id="prev" alt="selected leaf"><span id="fname" style="opacity:.9"></span></div>
+<div class="env"><div class="row">
+<label>Plant<select id="plant"></select></label><button class="btn ghost" id="newPlant" type="button">+ New</button>
+<label>Temperature °C<input id="t" type="number" step="0.1" placeholder="e.g. 29"></label>
+<label>Humidity %<input id="h" type="number" min="0" max="100" placeholder="e.g. 82"></label>
+<label>Rainfall mm<input id="r" type="number" min="0" step="0.1" placeholder="e.g. 18"></label>
+<label style="min-width:90px">Recent rain<span><input id="rr" type="checkbox"> yes</span></label>
+<label>Scan date<input id="d" type="date"></label>
+<button class="btn pri" id="go" disabled>Analyze</button></div>
+<div class="note" style="color:#e6fff0;margin-top:8px">Environmental fields are optional - without them the risk uses neutral values and the forecast is flagged as less certain.</div></div></section>
+<input type="file" id="file" accept="image/jpeg,image/png,image/webp" hidden>
+<div id="banner"></div>
+<div id="results" hidden></div>
+<section class="card" id="monitor"><h2>Plant monitoring</h2><p class="sub">Every saved scan of the selected plant. Predicted-vs-actual is computed only when real follow-up scans exist.</p><div id="hist" class="note">No scans yet.</div></section>
+<section class="card" id="evalsec"><h2>Model evaluation</h2><p class="sub">Read from <code>model_weights/metrics.json</code> written by the training notebook - nothing is hard-coded.</p><div id="evalbox" class="note">Loading…</div></section>
+</main>
+<div id="cam"><div class="box"><video id="vid" playsinline autoplay muted></video><div class="guide"></div></div><div id="hint"></div><div class="row"><button class="btn pri" id="shot">⬤ Capture</button><button class="btn" id="camClose">Cancel</button></div></div>
+<button class="btn pri" id="chatb">🤖 Ask PlantGuard</button>
+<div class="card" id="chatp"><div style="padding:12px;border-bottom:1px solid var(--line)"><b>PlantGuard AI Assistant</b><div class="note">Explains your analysis results. It does not run the models.</div></div><div id="msgs"></div>
+<div class="chips"><button>What should I do now?</button><button>Why is my plant at this risk level?</button><button>What does this severity mean?</button></div>
+<form id="cf" class="row" style="padding:8px 12px;flex-wrap:nowrap"><input id="ci" style="flex:1" placeholder="Ask about the results…"><button class="btn pri">Send</button></form></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const f1=x=>x==null?'–':(+x).toFixed(1),pill=l=>`<span class="pill ${esc(l)}">${esc(l)}</span>`;
+let file=null,rep=null,chatHist=[],charts={};
+const mk=(id,cfg)=>{if(!window.Chart)return;charts[id]?.destroy();charts[id]=new Chart($('#'+id),cfg)};
+$('#d').value=new Date().toISOString().slice(0,10);
+const jget=async u=>(await fetch(u)).json();
+
+async function init(){
+  const h=await jget('/api/health');
+  if(!h.model_ready)$('#banner').innerHTML=`<div class="warn fail"><b>Model not loaded.</b> ${esc(h.error)}</div>`;
+  await loadPlants();loadEval();
+}
+async function loadPlants(sel){
+  const ps=await jget('/api/plants');
+  $('#plant').innerHTML=ps.map(p=>`<option value="${p.id}">${esc(p.name)} (${p.scans} scans)</option>`).join('');
+  if(sel)$('#plant').value=sel;loadHist();
+}
+$('#newPlant').onclick=async()=>{const n=prompt('Plant name (e.g. Tomato bed 1):');if(!n)return;
+  const p=await(await fetch('/api/plants',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n})})).json();loadPlants(p.id)};
+$('#plant').onchange=loadHist;
+
+/* ---------- input ---------- */
+function setFile(f){file=f;$('#prev').src=URL.createObjectURL(f);$('#prev').style.display='block';$('#fname').textContent=f.name;$('#go').disabled=false}
+$('#upBtn').onclick=()=>$('#file').click();
+$('#file').onchange=e=>e.target.files[0]&&setFile(e.target.files[0]);
+let stream=null,timer=null;
+$('#camBtn').onclick=async()=>{
+  if(!navigator.mediaDevices?.getUserMedia)return alert('Camera is not available here (it needs HTTPS or localhost and a camera). Use Upload instead.');
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false})}catch(e){return alert('Could not open the camera: '+e.message)}
+  $('#vid').srcObject=stream;$('#cam').style.display='flex';timer=setInterval(hint,700)};
+function closeCam(){clearInterval(timer);stream?.getTracks().forEach(t=>t.stop());$('#cam').style.display='none'}
+$('#camClose').onclick=closeCam;
+function hint(){ /* quick client-side guidance only; the server quality check is the authority */
+  const v=$('#vid');if(!v.videoWidth)return;const c=document.createElement('canvas');c.width=160;c.height=120;const x=c.getContext('2d');x.drawImage(v,0,0,160,120);
+  const d=x.getImageData(0,0,160,120).data;let m=0,lf=0,n=0,lap=[];const g=new Float32Array(160*120);
+  for(let i=0;i<g.length;i++){const r=d[4*i],gg=d[4*i+1],b=d[4*i+2];g[i]=.3*r+.59*gg+.11*b;m+=g[i];
+    const X=i%160,Y=(i/160)|0;if(X>29&&X<131&&Y>16&&Y<104){n++;if(gg>b*1.15&&gg>r*.85)lf++}}
+  m/=g.length;let s=0,s2=0,k=0;for(let y=1;y<119;y++)for(let X=1;X<159;X++){const i=y*160+X,l=4*g[i]-g[i-1]-g[i+1]-g[i-160]-g[i+160];s+=l;s2+=l*l;k++}
+  const blur=s2/k-(s/k)**2;
+  $('#hint').textContent=m<45?'Too dark - improve lighting':m>225?'Too bright - reduce glare':lf/n<.15?'Place one leaf inside the box / move closer':blur<25?'Hold steady - image looks blurry':'Looks good - capture'}
+$('#shot').onclick=()=>{const v=$('#vid'),c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);
+  c.toBlob(b=>{setFile(new File([b],'scan-'+Date.now()+'.jpg',{type:'image/jpeg'}));closeCam()},'image/jpeg',.92)};
+
+/* ---------- analyze ---------- */
+$('#go').onclick=async()=>{
+  const fd=new FormData();fd.append('image',file);fd.append('plant_id',$('#plant').value);
+  for(const[k,id]of[['temperature','t'],['humidity','h'],['rainfall_mm','r']])if($('#'+id).value!=='')fd.append(k,$('#'+id).value);
+  fd.append('recent_rain',$('#rr').checked);fd.append('observed_at',$('#d').value);
+  $('#go').disabled=true;$('#go').textContent='Analyzing…';$('#banner').innerHTML='';
+  try{const r=await fetch('/api/analyze',{method:'POST',body:fd});const j=await r.json();
+    if(!r.ok)$('#banner').innerHTML=`<div class="warn fail">${esc(j.detail||'Request failed')}</div>`;
+    else if(j.status!=='ok')fail(j);else{rep=j;chatHist=[];$('#msgs').innerHTML='';render(j);loadPlants(+$('#plant').value)}}
+  catch(e){$('#banner').innerHTML=`<div class="warn fail">Network error: ${esc(e.message)}</div>`}
+  $('#go').disabled=false;$('#go').textContent='Analyze'};
+
+function fail(j){$('#results').hidden=true;const q=j.quality;
+  $('#banner').innerHTML=`<div class="warn fail"><b>⚠ ${esc(j.message)}</b>`+(q?`<ul class="t">${q.checks.map(c=>`<li>${c.pass?'✓':'✗'} ${esc(c.name)} - ${esc(c.detail)}</li>`).join('')}</ul><div>Quality score: ${q.score}/100</div>`+(q.tips.length?`<div>Please: ${q.tips.map(esc).join(' · ')}</div>`:''):'')+
+  (j.candidates?`<div class="note">Closest guesses (NOT a diagnosis): ${j.candidates.map(c=>esc(c.label)+' '+c.probability+'%').join(', ')}</div>`:'')+'</div>';
+  scrollTo({top:0,behavior:'smooth'})}
+
+const fig=(src,cap)=>`<figure class="fig"><img src="${src}" alt="${esc(cap)}"><figcaption>${esc(cap)}</figcaption></figure>`;
+function render(r){
+  const s=r.severity,k=r.risk,p=r.progression,rc=r.recommendation,q=r.quality,I=r.images,d7=p?.milestones.day_7;
+  $('#results').hidden=false;
+  $('#results').innerHTML=`
+  <div class="grid g4" style="margin-top:18px">
+   <div class="kpi"><small>Disease · ${esc(r.crop.name)} (${f1(r.crop.confidence)}%)</small><b>${esc(r.disease.name)}</b><i>Evidence: Grad-CAM + probability chart</i></div>
+   <div class="kpi"><small>Severity</small><b>${s.applicable?f1(s.affected_percent)+'%':'n/a'}</b> ${pill(s.level)}<i>Evidence: affected / total leaf pixels</i></div>
+   <div class="kpi"><small>Environmental risk</small><b>${k?k.score+'/100':'–'}</b> ${k?pill(k.level):''}<i>Evidence: rule-based factor contributions</i></div>
+   <div class="kpi"><small>Model confidence</small><b>${f1(r.disease.confidence)}%</b><i>Calibrated · image quality ${q.score}/100</i></div></div>
+
+  <section class="card"><h2>Disease analysis</h2><p class="sub">The highlighted regions show the image areas that influenced the model's prediction most. This is an explanation of the model, not proof of biological cause.</p>
+   <div class="grid g2"><div><div class="cc"><canvas id="cTop"></canvas></div></div>
+   <div class="grid g3">${fig(I.original,'Original (leaf crop)')}${fig(I.heatmap,'Grad-CAM heatmap')}${fig(I.cam_overlay,'Overlay')}</div></div></section>
+
+  <section class="card"><h2>Severity analysis</h2><p class="sub">${esc(s.method)}${s.bands?'. Bands: '+esc(s.bands):''}</p>
+   <div class="grid g2"><div class="grid g3">${fig(I.original,'Original')}${fig(I.mask,'Mask: green healthy, red affected')}${fig(I.seg_overlay,'Overlay')}</div>
+   <div><div class="cc" style="height:200px"><canvas id="cSev"></canvas></div>
+   <table><tr><th>Total leaf pixels</th><td>${s.leaf_pixels.toLocaleString()}</td></tr><tr><th>Diseased pixels</th><td>${s.diseased_pixels.toLocaleString()}</td></tr>
+   <tr><th>Affected / Healthy</th><td>${f1(s.affected_percent)}% / ${f1(s.healthy_percent)}%</td></tr></table></div></div></section>
+
+  <section class="card"><h2>Environmental risk</h2>${k?`<p class="sub">${esc(k.method)}. Score = Σ (weight × favourability of each factor).${k.env_complete?'':' <b>Some inputs were not provided and count as neutral.</b>'}</p>
+   <div class="grid g2"><div>${k.factors.map(f=>`<div style="margin:8px 0"><div class="row" style="justify-content:space-between;gap:4px"><span><b>${esc(f.name)}</b> · ${esc(f.value)}</span><span class="note">favourability ${f.favourability}/100 × weight ${f.weight} = +${f.contribution}</span></div><div class="bar"><div style="width:${f.favourability}%"></div></div></div>`).join('')}${k.note?`<p class="note">${esc(k.note)}</p>`:''}</div>
+   <div class="kpi" style="text-align:center"><small>OVERALL RISK</small><b style="font-size:44px">${k.score}/100</b><br>${pill(k.level)}</div></div>`:'<p class="sub">No disease detected - risk not computed.</p>'}</section>
+
+  <section class="card"><h2>Disease progression</h2>${p?`<p class="sub">${esc(p.method)}. Source: ${esc(p.source)}.</p>
+   <div class="cc" style="height:300px"><canvas id="cProg"></canvas></div>
+   <table><tr><th></th><th>Today</th><th>Day 3</th><th>Day 7</th><th>Day 14</th></tr><tr><th>Projected severity (median, 10–90% spread)</th><td>${f1(p.curve[0].median)}%</td>${[3,7,14].map(d=>{const m=p.milestones['day_'+d];return`<td>${f1(m.median)}% <span class="note">(${f1(m.low)}–${f1(m.high)})</span></td>`}).join('')}</tr></table>
+   <p class="note">${esc(p.uncertainty_note)}</p>
+   <b>Why is the progression risk ${esc((k?.level||'unknown').toLowerCase())}?</b><ul class="t"><li>Current severity ${f1(s.affected_percent)}%</li>${k?k.factors.filter(f=>f.name!=='Current severity').map(f=>`<li>${esc(f.name)}: ${esc(f.value)}</li>`).join(''):''}<li>Disease: ${esc(r.disease.name)} · assumed growth rate ${p.growth_rate_per_day}/day</li>${k?`<li>Environmental risk ${k.score}/100</li>`:''}</ul>`:'<p class="sub">No disease detected - no progression projection.</p>'}</section>
+
+  <section class="card"><h2>Recommendations ${pill(rc.priority)}</h2><p class="sub">Next scan recommended in ${esc(rc.next_scan_days)} days.</p>
+   <div class="grid g2"><div><b>Immediate actions</b><ol class="t">${rc.actions.map(a=>`<li>${esc(a)}</li>`).join('')}</ol></div>
+   <div><b>Why this recommendation?</b><table>${Object.entries(rc.evidence).map(([a,b])=>`<tr><th>${esc(a)}</th><td>${esc(b)}</td></tr>`).join('')}</table></div></div>
+   <p class="note">${esc(rc.disclaimer)}</p></section>
+  <section class="card"><b>Limitations of this analysis</b><ul class="t note">${r.limitations.map(l=>`<li>${esc(l)}</li>`).join('')}</ul></section>`;
+
+  mk('cTop',{type:'bar',data:{labels:r.top3.map(t=>t.label),datasets:[{data:r.top3.map(t=>t.probability),backgroundColor:['#1f8a4c','#8fb9a0','#c8d9cd']}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'Top predictions (%)'}},scales:{x:{max:100}}}});
+  mk('cSev',{type:'doughnut',data:{labels:['Affected','Healthy'],datasets:[{data:[s.affected_percent,s.healthy_percent],backgroundColor:['#d64545','#1f8a4c']}]},options:{maintainAspectRatio:false,cutout:'62%'}});
+  if(p){const lab=p.curve.map(c=>'Day '+c.day),big=[0,3,7,14];
+   mk('cProg',{type:'line',data:{labels:lab,datasets:[{label:'High (90th pct)',data:p.curve.map(c=>c.high),borderWidth:0,pointRadius:0,backgroundColor:'rgba(214,69,69,.15)'},
+    {label:'Low (10th pct)',data:p.curve.map(c=>c.low),borderWidth:0,pointRadius:0,fill:'-1',backgroundColor:'rgba(214,69,69,.15)'},
+    {label:'Projected severity (median)',data:p.curve.map(c=>c.median),borderColor:'#d64545',backgroundColor:'#d64545',tension:.3,pointRadius:p.curve.map(c=>big.includes(c.day)?5:0)}]},
+    options:{maintainAspectRatio:false,scales:{y:{min:0,max:100,title:{display:true,text:'Severity %'}}},plugins:{title:{display:true,text:'Projected severity if conditions continue (scenario spread, not a confidence interval)'}}}})}
+  $('#results').scrollIntoView({behavior:'smooth'})}
+
+/* ---------- monitoring ---------- */
+async function loadHist(){
+  const id=$('#plant').value;if(!id)return;const h=await jget(`/api/plants/${id}/history`),sc=h.scans,ev=h.forecast_evaluation;
+  if(!sc.length){$('#hist').innerHTML='No scans yet for this plant.';return}
+  $('#hist').innerHTML=`<div class="grid g2"><div class="cc"><canvas id="cHist"></canvas></div><div>
+   <table><tr><th>Date</th><th>Finding</th><th>Severity</th><th>Risk</th></tr>${sc.map(s=>`<tr><td>${new Date(s.observed_at*1000).toLocaleDateString()}</td><td>${esc(s.disease)}</td><td>${f1(s.severity_pct)}%</td><td>${s.risk_score??'–'}</td></tr>`).join('')}</table></div></div>
+   <h3 style="margin:14px 0 4px">Predicted vs actual</h3>${ev.n?`<table><tr><th>Days later</th><th>Predicted</th><th>Actual</th></tr>${ev.pairs.map(p=>`<tr><td>${p.days}</td><td>${p.predicted}%</td><td>${p.actual}%</td></tr>`).join('')}</table>
+   <p>MAE <b>${ev.mae}%</b> · RMSE <b>${ev.rmse}%</b> · R² <b>${ev.r2??'insufficient data (needs ≥3 pairs)'}</b> <span class="note">(${ev.n} pair${ev.n>1?'s':''} - interpret with care)</span></p>`:'<p class="note">Insufficient data: scan the same plant again at least 1 day later and the earlier forecast will be scored against what actually happened.</p>'}`;
+  mk('cHist',{type:'line',data:{labels:sc.map(s=>new Date(s.observed_at*1000).toLocaleDateString()),datasets:[{label:'Actual severity %',data:sc.map(s=>s.severity_pct),borderColor:'#1f8a4c',tension:.2}]},options:{maintainAspectRatio:false,scales:{y:{min:0,max:100}},plugins:{title:{display:true,text:'Measured severity over time'}}}})}
+
+/* ---------- evaluation ---------- */
+async function loadEval(){
+  const m=await jget('/api/metrics');
+  if(!m.available){$('#evalbox').innerHTML='No metrics yet - run the training notebook and copy its outputs into <code>model_weights/</code>.';return}
+  const t=m.test,pc=x=>(x*100).toFixed(1)+'%';
+  $('#evalbox').innerHTML=`${m.quick_test?'<div class="warn fail">These metrics come from a QUICK_TEST run and are meaningless.</div>':''}
+  <div class="grid g4"><div class="kpi"><small>Test accuracy</small><b>${pc(t.accuracy)}</b></div><div class="kpi"><small>Macro F1</small><b>${pc(t.macro_f1)}</b></div><div class="kpi"><small>Macro precision</small><b>${pc(t.macro_precision)}</b></div><div class="kpi"><small>Macro recall</small><b>${pc(t.macro_recall)}</b></div></div>
+  <p class="note">Selected model: <b>${esc(m.selected_model)}</b>${m.fine_tuned?' (fine-tuned)':''} · test set n=${t.n} · ${m.dataset.grouped_split?'leakage-safe grouped split':'plain split (possible leakage!)'} · generated ${esc(m.generated)}. PlantVillage images are lab-style; accuracy on field photos is expected to be lower.</p>
+  <h3>Model comparison (validation set)</h3><table><tr><th>Model</th><th>Accuracy</th><th>Macro F1</th><th>Parameters</th><th>ms/image</th></tr>${m.comparison_validation.map(c=>`<tr><td>${esc(c.model)}</td><td>${pc(c.val_accuracy)}</td><td>${pc(c.val_macro_f1)}</td><td>${c.parameters.toLocaleString()}</td><td>${c.latency_ms_per_image}</td></tr>`).join('')}</table>
+  <h3>Per-class (test set)</h3><div style="overflow-x:auto"><table><tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr>${m.per_class.map(c=>`<tr><td>${esc(c.class)}</td><td>${pc(c.precision)}</td><td>${pc(c.recall)}</td><td>${pc(c.f1)}</td><td>${c.support}</td></tr>`).join('')}</table></div>
+  <p class="note">Overfitting check: train ${pc(m.overfitting.final_train_accuracy)} vs validation ${pc(m.overfitting.final_val_accuracy)} (gap ${(m.overfitting.gap*100).toFixed(1)} pts) · calibration ECE ${m.calibration.test_ece_before} → ${m.calibration.test_ece_after}</p>
+  <div class="grid g2">${m.figures.map(f=>`<figure class="fig"><img src="/api/metrics/figure/${esc(f)}" alt="${esc(f)}"></figure>`).join('')}</div>`}
+
+/* ---------- chat ---------- */
+$('#chatb').onclick=()=>{const p=$('#chatp');p.style.display=p.style.display==='flex'?'none':'flex'};
+function addMsg(t,c){const d=document.createElement('div');d.className='m '+c;d.textContent=t;$('#msgs').appendChild(d);$('#msgs').scrollTop=1e6}
+async function ask(q){
+  if(!rep){addMsg('Analyze a leaf first, then I can explain the results.','a');return}
+  addMsg(q,'u');const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({analysis_id:rep.analysis_id,message:q,history:chatHist})});
+  const j=await r.json();const a=j.reply||j.detail||'No answer.';addMsg(a,'a');chatHist.push({role:'user',content:q},{role:'assistant',content:a})}
+$('#cf').onsubmit=e=>{e.preventDefault();const q=$('#ci').value.trim();if(q){$('#ci').value='';ask(q)}};
+document.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>ask(b.textContent));
+init();
+</script></body></html>

@@ -1,0 +1,16 @@
+# --- web app ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+requests>=2.31
+python-dotenv>=1.0
+opencv-python-headless>=4.8
+numpy>=1.26
+pillow>=10.0
+# --- model (training notebook + inference). Use the SAME TensorFlow version for training and serving. ---
+tensorflow>=2.16
+# --- training notebook only ---
+pandas
+scikit-learn
+scipy
+matplotlib
